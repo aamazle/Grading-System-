@@ -1,0 +1,83 @@
+# Programming PBL: Grading System
+
+# Dictionary to store student data
+students = {}
+
+# Function to add student and student marks
+def add_student():
+    name = input("Enter student name: ")
+    marks = []
+    num_subjects = int(input(f"How many test for {name}? "))
+    
+    for i in range(num_subjects):
+        mark = float(input(f"Enter mark for test {i + 1}: "))
+        marks.append(mark)
+    
+    students[name] = marks
+
+# Function to calculate average mark for the student name inserted
+def calculate_average(name):
+    marks = students.get(name, [])
+    if not marks:
+        return None
+    return sum(marks) / len(marks)
+
+# Function to determine letter grade based on average
+def determine_letter_grade(average):
+    if average >= 80:
+        return 'A'
+    elif average >= 70:
+        return 'B'
+    elif average >= 60:
+        return 'C'
+    elif average >= 50:
+        return 'D'
+    elif average >= 40:
+        return 'E'
+    else:
+        return 'F'
+
+# Function to display report of all students
+def display_report():
+    if not students:
+        print("No student data available.")
+        return
+    
+    print("\nStudent Report:")
+    print("-" * 40)
+    for name, marks in students.items():
+        average = calculate_average(name)
+        letter_grade = determine_letter_grade(average)
+        print(f"Name: {name}")
+        print(f"Marks: {marks}")
+        print(f"Average: {average:.2f}")
+        print(f"Letter Grade: {letter_grade}")
+        print("-" * 40)
+
+# Main function to run the CLI
+while True:
+    print("\nGrading System Menu")
+    print("1. Add Student Marks")
+    print("2. Calculate Average Mark")
+    print("3. Display Report")
+    print("4. Exit")
+    choice = input("Choose an option: ")
+    
+    if choice == '1':
+        add_student()
+    elif choice == '2':
+        name = input("Enter student name to calculate average: ")
+        average = calculate_average(name)
+        if average is not None:
+            print(f"{name}'s average mark is {average:.2f}")
+            letter_grade = determine_letter_grade(average)
+            print(f"Letter Grade: {letter_grade}")
+        else:
+            print(f"No data for student {name}")
+    elif choice == '3':
+        display_report()
+    elif choice == '4':
+        print("Exiting the program.")
+        break
+    else:
+        print("Invalid option. Please try again.")
